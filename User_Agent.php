@@ -1,115 +1,115 @@
 <?php
 /**
 
- * @version 2.8.34
- */
+* @version 2.8.34
+*/
 class User_Agent
 {
     /**
-     * Mobile detection type.
-     *
-     * @deprecated since version 2.6.9
-     */
+    * Mobile detection type.
+    *
+    * @deprecated since version 2.6.9
+    */
     const DETECTION_TYPE_MOBILE     = 'mobile';
 
     /**
-     * Extended detection type.
-     *
-     * @deprecated since version 2.6.9
-     */
+    * Extended detection type.
+    *
+    * @deprecated since version 2.6.9
+    */
     const DETECTION_TYPE_EXTENDED   = 'extended';
 
     /**
-     * A frequently used regular expression to extract version #s.
-     *
-     * @deprecated since version 2.6.9
-     */
+    * A frequently used regular expression to extract version #s.
+    *
+    * @deprecated since version 2.6.9
+    */
     const VER                       = '([\w._\+]+)';
 
     /**
-     * Top-level device.
-     */
+    * Top-level device.
+    */
     const MOBILE_GRADE_A            = 'A';
 
     /**
-     * Mid-level device.
-     */
+    * Mid-level device.
+    */
     const MOBILE_GRADE_B            = 'B';
 
     /**
-     * Low-level device.
-     */
+    * Low-level device.
+    */
     const MOBILE_GRADE_C            = 'C';
 
     /**
-     * Stores the version number of the current release.
-     */
+    * Stores the version number of the current release.
+    */
     const VERSION                   = '2.8.34';
 
     /**
-     * A type for the version() method indicating a string return value.
-     */
+    * A type for the version() method indicating a string return value.
+    */
     const VERSION_TYPE_STRING       = 'text';
 
     /**
-     * A type for the version() method indicating a float return value.
-     */
+    * A type for the version() method indicating a float return value.
+    */
     const VERSION_TYPE_FLOAT        = 'float';
 
     /**
-     * A cache for resolved matches
-     * @var array
-     */
+    * A cache for resolved matches
+    * @var array
+    */
     protected $cache = array();
 
     /**
-     * The User-Agent HTTP header is stored in here.
-     * @var string
-     */
+    * The User-Agent HTTP header is stored in here.
+    * @var string
+    */
     protected $userAgent = null;
 
     /**
-     * HTTP headers in the PHP-flavor. So HTTP_USER_AGENT and SERVER_SOFTWARE.
-     * @var array
-     */
+    * HTTP headers in the PHP-flavor. So HTTP_USER_AGENT and SERVER_SOFTWARE.
+    * @var array
+    */
     protected $httpHeaders = array();
 
     /**
-     * CloudFront headers. E.g. CloudFront-Is-Desktop-Viewer, CloudFront-Is-Mobile-Viewer & CloudFront-Is-Tablet-Viewer.
-     * @var array
-     */
+    * CloudFront headers. E.g. CloudFront-Is-Desktop-Viewer, CloudFront-Is-Mobile-Viewer & CloudFront-Is-Tablet-Viewer.
+    * @var array
+    */
     protected $cloudfrontHeaders = array();
 
     /**
-     * The matching Regex.
-     * This is good for debug.
-     * @var string
-     */
+    * The matching Regex.
+    * This is good for debug.
+    * @var string
+    */
     protected $matchingRegex = null;
 
     /**
-     * The matches extracted from the regex expression.
-     * This is good for debug.
-     *
-     * @var string
-     */
+    * The matches extracted from the regex expression.
+    * This is good for debug.
+    *
+    * @var string
+    */
     protected $matchesArray = null;
 
     /**
-     * The detection type, using self::DETECTION_TYPE_MOBILE or self::DETECTION_TYPE_EXTENDED.
-     *
-     * @deprecated since version 2.6.9
-     *
-     * @var string
-     */
+    * The detection type, using self::DETECTION_TYPE_MOBILE or self::DETECTION_TYPE_EXTENDED.
+    *
+    * @deprecated since version 2.6.9
+    *
+    * @var string
+    */
     protected $detectionType = self::DETECTION_TYPE_MOBILE;
 
     /**
-     * HTTP headers that trigger the 'isMobile' detection
-     * to be true.
-     *
-     * @var array
-     */
+    * HTTP headers that trigger the 'isMobile' detection
+    * to be true.
+    *
+    * @var array
+    */
     protected static $mobileHeaders = array(
 
             'HTTP_ACCEPT'                  => array('matches' => array(
@@ -141,10 +141,10 @@ class User_Agent
     );
 
     /**
-     * List of mobile devices (phones).
-     *
-     * @var array
-     */
+    * List of mobile devices (phones).
+    *
+    * @var array
+    */
     protected static $phoneDevices = array(
         'iPhone'        => '\biPhone\b|\biPod\b', // |\biTunes
         'BlackBerry'    => 'BlackBerry|\bBB10\b|rim[0-9]+|\b(BBA100|BBB100|BBD100|BBE100|BBF100|STH100)\b-[0-9]+',
@@ -175,8 +175,8 @@ class User_Agent
         // Added simvalley mobile just for fun. They have some interesting devices.
         // http://www.simvalley.fr/telephonie---gps-_22_telephonie-mobile_telephones_.html
         'SimValley'     => '\b(SP-80|XT-930|SX-340|XT-930|SX-310|SP-360|SP60|SPT-800|SP-120|SPT-800|SP-140|SPX-5|SPX-8|SP-100|SPX-8|SPX-12)\b',
-         // Wolfgang - a brand that is sold by Aldi supermarkets.
-         // http://www.wolfgangmobile.com/
+        // Wolfgang - a brand that is sold by Aldi supermarkets.
+        // http://www.wolfgangmobile.com/
         'Wolfgang'      => 'AT-B24D|AT-AS50HD|AT-AS40W|AT-AS55HD|AT-AS45q2|AT-B26D|AT-AS50Q',
         'Alcatel'       => 'Alcatel',
         'Nintendo'      => 'Nintendo (3DS|Switch)',
@@ -190,10 +190,10 @@ class User_Agent
     );
 
     /**
-     * List of tablet devices.
-     *
-     * @var array
-     */
+    * List of tablet devices.
+    *
+    * @var array
+    */
     protected static $tabletDevices = array(
         // @todo: check for mobile friendly emails topic.
         'iPad'              => 'iPad|iPad.*Mobile',
@@ -458,10 +458,10 @@ class User_Agent
     );
 
     /**
-     * List of mobile Operating Systems.
-     *
-     * @var array
-     */
+    * List of mobile Operating Systems.
+    *
+    * @var array
+    */
     protected static $operatingSystems = array(
         'AndroidOS'         => 'Android',
         'BlackBerryOS'      => 'blackberry|\bBB10\b|rim tablet os',
@@ -491,15 +491,15 @@ class User_Agent
     );
 
     /**
-     * List of mobile User Agents.
-     *
-     * IMPORTANT: This is a list of only mobile browsers.
-     * Mobile Detect 2.x supports only mobile browsers,
-     * it was never designed to detect all browsers.
-     * The change will come in 2017 in the 3.x release for PHP7.
-     *
-     * @var array
-     */
+    * List of mobile User Agents.
+    *
+    * IMPORTANT: This is a list of only mobile browsers.
+    * Mobile Detect 2.x supports only mobile browsers,
+    * it was never designed to detect all browsers.
+    * The change will come in 2017 in the 3.x release for PHP7.
+    *
+    * @var array
+    */
     protected static $browsers = array(
         //'Vivaldi'         => 'Vivaldi',
         // @reference: https://developers.google.com/chrome/mobile/docs/user-agent
@@ -541,10 +541,10 @@ class User_Agent
     );
 
     /**
-     * Utilities.
-     *
-     * @var array
-     */
+    * Utilities.
+    *
+    * @var array
+    */
     protected static $utilities = array(
         // Experimental. When a mobile device wants to switch to 'Desktop Mode'.
         // http://scottcate.com/technology/windows-phone-8-ie10-desktop-or-mobile/
@@ -561,11 +561,11 @@ class User_Agent
     );
 
     /**
-     * All possible HTTP headers that represent the
-     * User-Agent string.
-     *
-     * @var array
-     */
+    * All possible HTTP headers that represent the
+    * User-Agent string.
+    *
+    * @var array
+    */
     protected static $uaHttpHeaders = array(
         // The default User-Agent string.
         'HTTP_USER_AGENT',
@@ -581,11 +581,11 @@ class User_Agent
     );
 
     /**
-     * The individual segments that could exist in a User-Agent string. VER refers to the regular
-     * expression defined in the constant self::VER.
-     *
-     * @var array
-     */
+    * The individual segments that could exist in a User-Agent string. VER refers to the regular
+    * expression defined in the constant self::VER.
+    *
+    * @var array
+    */
     protected static $properties = array(
 
         // Build
@@ -657,13 +657,13 @@ class User_Agent
     );
 
     /**
-     * Construct an instance of this class.
-     *
-     * @param array  $headers   Specify the headers as injection. Should be PHP _SERVER flavored.
-     *                          If left empty, will use the global _SERVER['HTTP_*'] vars instead.
-     * @param string $userAgent Inject the User-Agent header. If null, will use HTTP_USER_AGENT
-     *                          from the $headers array instead.
-     */
+    * Construct an instance of this class.
+    *
+    * @param array  $headers   Specify the headers as injection. Should be PHP _SERVER flavored.
+    *                          If left empty, will use the global _SERVER['HTTP_*'] vars instead.
+    * @param string $userAgent Inject the User-Agent header. If null, will use HTTP_USER_AGENT
+    *                          from the $headers array instead.
+    */
     public function __construct(
         array $headers = null,
         $userAgent = null
@@ -673,24 +673,24 @@ class User_Agent
     }
 
     /**
-     * Get the current script version.
-     * This is useful for the demo.php file,
-     * so people can check on what version they are testing
-     * for mobile devices.
-     *
-     * @return string The version number in semantic version format.
-     */
+    * Get the current script version.
+    * This is useful for the demo.php file,
+    * so people can check on what version they are testing
+    * for mobile devices.
+    *
+    * @return string The version number in semantic version format.
+    */
     public static function getScriptVersion()
     {
         return self::VERSION;
     }
 
     /**
-     * Set the HTTP Headers. Must be PHP-flavored. This method will reset existing headers.
-     *
-     * @param array $httpHeaders The headers to set. If null, then using PHP's _SERVER to extract
-     *                           the headers. The default null is left for backwards compatibility.
-     */
+    * Set the HTTP Headers. Must be PHP-flavored. This method will reset existing headers.
+    *
+    * @param array $httpHeaders The headers to set. If null, then using PHP's _SERVER to extract
+    *                           the headers. The default null is left for backwards compatibility.
+    */
     public function setHttpHeaders($httpHeaders = null)
     {
         // use global _SERVER if $httpHeaders aren't defined
@@ -714,25 +714,25 @@ class User_Agent
     }
 
     /**
-     * Retrieves the HTTP headers.
-     *
-     * @return array
-     */
+    * Retrieves the HTTP headers.
+    *
+    * @return array
+    */
     public function getHttpHeaders()
     {
         return $this->httpHeaders;
     }
 
     /**
-     * Retrieves a particular header. If it doesn't exist, no exception/error is caused.
-     * Simply null is returned.
-     *
-     * @param string $header The name of the header to retrieve. Can be HTTP compliant such as
-     *                       "User-Agent" or "X-Device-User-Agent" or can be php-esque with the
-     *                       all-caps, HTTP_ prefixed, underscore seperated awesomeness.
-     *
-     * @return string|null The value of the header.
-     */
+    * Retrieves a particular header. If it doesn't exist, no exception/error is caused.
+    * Simply null is returned.
+    *
+    * @param string $header The name of the header to retrieve. Can be HTTP compliant such as
+    *                       "User-Agent" or "X-Device-User-Agent" or can be php-esque with the
+    *                       all-caps, HTTP_ prefixed, underscore seperated awesomeness.
+    *
+    * @return string|null The value of the header.
+    */
     public function getHttpHeader($header)
     {
         // are we using PHP-flavored headers?
@@ -760,11 +760,11 @@ class User_Agent
     }
 
     /**
-     * Get all possible HTTP headers that
-     * can contain the User-Agent string.
-     *
-     * @return array List of HTTP headers.
-     */
+    * Get all possible HTTP headers that
+    * can contain the User-Agent string.
+    *
+    * @return array List of HTTP headers.
+    */
     public function getUaHttpHeaders()
     {
         return self::$uaHttpHeaders;
@@ -772,13 +772,13 @@ class User_Agent
 
 
     /**
-     * Set CloudFront headers
-     * http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/header-caching.html#header-caching-web-device
-     *
-     * @param array $cfHeaders List of HTTP headers
-     *
-     * @return  boolean If there were CloudFront headers to be set
-     */
+    * Set CloudFront headers
+    * http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/header-caching.html#header-caching-web-device
+    *
+    * @param array $cfHeaders List of HTTP headers
+    *
+    * @return  boolean If there were CloudFront headers to be set
+    */
     public function setCfHeaders($cfHeaders = null) {
         // use global _SERVER if $cfHeaders aren't defined
         if (!is_array($cfHeaders) || !count($cfHeaders)) {
@@ -802,19 +802,19 @@ class User_Agent
     }
 
     /**
-     * Retrieves the cloudfront headers.
-     *
-     * @return array
-     */
+    * Retrieves the cloudfront headers.
+    *
+    * @return array
+    */
     public function getCfHeaders()
     {
         return $this->cloudfrontHeaders;
     }
 
     /**
-     * @param string $userAgent
-     * @return string
-     */
+    * @param string $userAgent
+    * @return string
+    */
     private function prepareUserAgent($userAgent) {
         $userAgent = trim($userAgent);
         $userAgent = substr($userAgent, 0, 500);
@@ -822,12 +822,12 @@ class User_Agent
     }
 
     /**
-     * Set the User-Agent to be used.
-     *
-     * @param string $userAgent The user agent string to set.
-     *
-     * @return string|null
-     */
+    * Set the User-Agent to be used.
+    *
+    * @param string $userAgent The user agent string to set.
+    *
+    * @return string|null
+    */
     public function setUserAgent($userAgent = null)
     {
         // Invalidate cache due to #375
@@ -855,24 +855,24 @@ class User_Agent
     }
 
     /**
-     * Retrieve the User-Agent.
-     *
-     * @return string|null The user agent if it's set.
-     */
+    * Retrieve the User-Agent.
+    *
+    * @return string|null The user agent if it's set.
+    */
     public function getUserAgent()
     {
         return $this->userAgent;
     }
 
     /**
-     * Set the detection type. Must be one of self::DETECTION_TYPE_MOBILE or
-     * self::DETECTION_TYPE_EXTENDED. Otherwise, nothing is set.
-     *
-     * @deprecated since version 2.6.9
-     *
-     * @param string $type The type. Must be a self::DETECTION_TYPE_* constant. The default
-     *                     parameter is null which will default to self::DETECTION_TYPE_MOBILE.
-     */
+    * Set the detection type. Must be one of self::DETECTION_TYPE_MOBILE or
+    * self::DETECTION_TYPE_EXTENDED. Otherwise, nothing is set.
+    *
+    * @deprecated since version 2.6.9
+    *
+    * @param string $type The type. Must be a self::DETECTION_TYPE_* constant. The default
+    *                     parameter is null which will default to self::DETECTION_TYPE_MOBILE.
+    */
     public function setDetectionType($type = null)
     {
         if ($type === null) {
@@ -897,62 +897,62 @@ class User_Agent
     }
 
     /**
-     * Retrieve the list of known phone devices.
-     *
-     * @return array List of phone devices.
-     */
+    * Retrieve the list of known phone devices.
+    *
+    * @return array List of phone devices.
+    */
     public static function getPhoneDevices()
     {
         return self::$phoneDevices;
     }
 
     /**
-     * Retrieve the list of known tablet devices.
-     *
-     * @return array List of tablet devices.
-     */
+    * Retrieve the list of known tablet devices.
+    *
+    * @return array List of tablet devices.
+    */
     public static function getTabletDevices()
     {
         return self::$tabletDevices;
     }
 
     /**
-     * Alias for getBrowsers() method.
-     *
-     * @return array List of user agents.
-     */
+    * Alias for getBrowsers() method.
+    *
+    * @return array List of user agents.
+    */
     public static function getUserAgents()
     {
         return self::getBrowsers();
     }
 
     /**
-     * Retrieve the list of known browsers. Specifically, the user agents.
-     *
-     * @return array List of browsers / user agents.
-     */
+    * Retrieve the list of known browsers. Specifically, the user agents.
+    *
+    * @return array List of browsers / user agents.
+    */
     public static function getBrowsers()
     {
         return self::$browsers;
     }
 
     /**
-     * Retrieve the list of known utilities.
-     *
-     * @return array List of utilities.
-     */
+    * Retrieve the list of known utilities.
+    *
+    * @return array List of utilities.
+    */
     public static function getUtilities()
     {
         return self::$utilities;
     }
 
     /**
-     * Method gets the mobile detection rules. This method is used for the magic methods $detect->is*().
-     *
-     * @deprecated since version 2.6.9
-     *
-     * @return array All the rules (but not extended).
-     */
+    * Method gets the mobile detection rules. This method is used for the magic methods $detect->is*().
+    *
+    * @deprecated since version 2.6.9
+    *
+    * @return array All the rules (but not extended).
+    */
     public static function getMobileDetectionRules()
     {
         static $rules;
@@ -971,15 +971,15 @@ class User_Agent
     }
 
     /**
-     * Method gets the mobile detection rules + utilities.
-     * The reason this is separate is because utilities rules
-     * don't necessary imply mobile. This method is used inside
-     * the new $detect->is('stuff') method.
-     *
-     * @deprecated since version 2.6.9
-     *
-     * @return array All the rules + extended.
-     */
+    * Method gets the mobile detection rules + utilities.
+    * The reason this is separate is because utilities rules
+    * don't necessary imply mobile. This method is used inside
+    * the new $detect->is('stuff') method.
+    *
+    * @deprecated since version 2.6.9
+    *
+    * @return array All the rules + extended.
+    */
     public function getMobileDetectionRulesExtended()
     {
         static $rules;
@@ -999,12 +999,12 @@ class User_Agent
     }
 
     /**
-     * Retrieve the current set of rules.
-     *
-     * @deprecated since version 2.6.9
-     *
-     * @return array
-     */
+    * Retrieve the current set of rules.
+    *
+    * @deprecated since version 2.6.9
+    *
+    * @return array
+    */
     public function getRules()
     {
         if ($this->detectionType == self::DETECTION_TYPE_EXTENDED) {
@@ -1015,22 +1015,22 @@ class User_Agent
     }
 
     /**
-     * Retrieve the list of mobile operating systems.
-     *
-     * @return array The list of mobile operating systems.
-     */
+    * Retrieve the list of mobile operating systems.
+    *
+    * @return array The list of mobile operating systems.
+    */
     public static function getOperatingSystems()
     {
         return self::$operatingSystems;
     }
 
     /**
-     * Check the HTTP headers for signs of mobile.
-     * This is the fastest mobile check possible; it's used
-     * inside isMobile() method.
-     *
-     * @return bool
-     */
+    * Check the HTTP headers for signs of mobile.
+    * This is the fastest mobile check possible; it's used
+    * inside isMobile() method.
+    *
+    * @return bool
+    */
     public function checkHttpHeadersForMobile()
     {
 
@@ -1055,14 +1055,14 @@ class User_Agent
     }
 
     /**
-     * Magic overloading method.
-     *
-     * @method boolean is[...]()
-     * @param  string                 $name
-     * @param  array                  $arguments
-     * @return mixed
-     * @throws BadMethodCallException when the method doesn't exist and doesn't start with 'is'
-     */
+    * Magic overloading method.
+    *
+    * @method boolean is[...]()
+    * @param  string                 $name
+    * @param  array                  $arguments
+    * @return mixed
+    * @throws BadMethodCallException when the method doesn't exist and doesn't start with 'is'
+    */
     public function __call($name, $arguments)
     {
         // make sure the name starts with 'is', otherwise
@@ -1078,11 +1078,11 @@ class User_Agent
     }
 
     /**
-     * Find a detection rule that matches the current User-agent.
-     *
-     * @param  null    $userAgent deprecated
-     * @return boolean
-     */
+    * Find a detection rule that matches the current User-agent.
+    *
+    * @param  null    $userAgent deprecated
+    * @return boolean
+    */
     protected function matchDetectionRulesAgainstUA($userAgent = null)
     {
         // Begin general search.
@@ -1100,14 +1100,14 @@ class User_Agent
     }
 
     /**
-     * Search for a certain key in the rules array.
-     * If the key is found then try to match the corresponding
-     * regex against the User-Agent.
-     *
-     * @param string $key
-     *
-     * @return boolean
-     */
+    * Search for a certain key in the rules array.
+    * If the key is found then try to match the corresponding
+    * regex against the User-Agent.
+    *
+    * @param string $key
+    *
+    * @return boolean
+    */
     protected function matchUAAgainstKey($key)
     {
         // Make the keys lowercase so we can match: isIphone(), isiPhone(), isiphone(), etc.
@@ -1130,12 +1130,12 @@ class User_Agent
     }
 
     /**
-     * Check if the device is mobile.
-     * Returns true if any type of mobile device detected, including special ones
-     * @param  null $userAgent   deprecated
-     * @param  null $httpHeaders deprecated
-     * @return bool
-     */
+    * Check if the device is mobile.
+    * Returns true if any type of mobile device detected, including special ones
+    * @param  null $userAgent   deprecated
+    * @param  null $httpHeaders deprecated
+    * @return bool
+    */
     public function isMobile($userAgent = null, $httpHeaders = null)
     {
 
@@ -1166,13 +1166,13 @@ class User_Agent
     }
 
     /**
-     * Check if the device is a tablet.
-     * Return true if any type of tablet device is detected.
-     *
-     * @param  string $userAgent   deprecated
-     * @param  array  $httpHeaders deprecated
-     * @return bool
-     */
+    * Check if the device is a tablet.
+    * Return true if any type of tablet device is detected.
+    *
+    * @param  string $userAgent   deprecated
+    * @param  array  $httpHeaders deprecated
+    * @return bool
+    */
     public function isTablet($userAgent = null, $httpHeaders = null)
     {
         // Check specifically for cloudfront headers if the useragent === 'Amazon CloudFront'
@@ -1195,15 +1195,15 @@ class User_Agent
     }
 
     /**
-     * This method checks for a certain property in the
-     * userAgent.
-     * @todo: The httpHeaders part is not yet used.
-     *
-     * @param  string        $key
-     * @param  string        $userAgent   deprecated
-     * @param  string        $httpHeaders deprecated
-     * @return bool|int|null
-     */
+    * This method checks for a certain property in the
+    * userAgent.
+    * @todo: The httpHeaders part is not yet used.
+    *
+    * @param  string        $key
+    * @param  string        $userAgent   deprecated
+    * @param  string        $httpHeaders deprecated
+    * @return bool|int|null
+    */
     public function is($key, $userAgent = null, $httpHeaders = null)
     {
         // Set the UA and HTTP headers only if needed (eg. batch mode).
@@ -1221,20 +1221,20 @@ class User_Agent
     }
 
     /**
-     * Some detection rules are relative (not standard),
-     * because of the diversity of devices, vendors and
-     * their conventions in representing the User-Agent or
-     * the HTTP headers.
-     *
-     * This method will be used to check custom regexes against
-     * the User-Agent string.
-     *
-     * @param $regex
-     * @param  string $userAgent
-     * @return bool
-     *
-     * @todo: search in the HTTP headers too.
-     */
+    * Some detection rules are relative (not standard),
+    * because of the diversity of devices, vendors and
+    * their conventions in representing the User-Agent or
+    * the HTTP headers.
+    *
+    * This method will be used to check custom regexes against
+    * the User-Agent string.
+    *
+    * @param $regex
+    * @param  string $userAgent
+    * @return bool
+    *
+    * @todo: search in the HTTP headers too.
+    */
     public function match($regex, $userAgent = null)
     {
         $match = (bool) preg_match(sprintf('#%s#is', $regex), (false === empty($userAgent) ? $userAgent : $this->userAgent), $matches);
@@ -1248,24 +1248,24 @@ class User_Agent
     }
 
     /**
-     * Get the properties array.
-     *
-     * @return array
-     */
+    * Get the properties array.
+    *
+    * @return array
+    */
     public static function getProperties()
     {
         return self::$properties;
     }
 
     /**
-     * Prepare the version number.
-     *
-     * @todo Remove the error supression from str_replace() call.
-     *
-     * @param string $ver The string version, like "2.6.21.2152";
-     *
-     * @return float
-     */
+    * Prepare the version number.
+    *
+    * @todo Remove the error supression from str_replace() call.
+    *
+    * @param string $ver The string version, like "2.6.21.2152";
+    *
+    * @return float
+    */
     public function prepareVersionNo($ver)
     {
         $ver = str_replace(array('_', ' ', '/'), '.', $ver);
@@ -1279,18 +1279,18 @@ class User_Agent
     }
 
     /**
-     * Check the version of the given property in the User-Agent.
-     * Will return a float number. (eg. 2_0 will return 2.0, 4.3.1 will return 4.31)
-     *
-     * @param string $propertyName The name of the property. See self::getProperties() array
-     *                             keys for all possible properties.
-     * @param string $type         Either self::VERSION_TYPE_STRING to get a string value or
-     *                             self::VERSION_TYPE_FLOAT indicating a float value. This parameter
-     *                             is optional and defaults to self::VERSION_TYPE_STRING. Passing an
-     *                             invalid parameter will default to the this type as well.
-     *
-     * @return string|float The version of the property we are trying to extract.
-     */
+    * Check the version of the given property in the User-Agent.
+    * Will return a float number. (eg. 2_0 will return 2.0, 4.3.1 will return 4.31)
+    *
+    * @param string $propertyName The name of the property. See self::getProperties() array
+    *                             keys for all possible properties.
+    * @param string $type         Either self::VERSION_TYPE_STRING to get a string value or
+    *                             self::VERSION_TYPE_FLOAT indicating a float value. This parameter
+    *                             is optional and defaults to self::VERSION_TYPE_STRING. Passing an
+    *                             invalid parameter will default to the this type as well.
+    *
+    * @return string|float The version of the property we are trying to extract.
+    */
     public function version($propertyName, $type = self::VERSION_TYPE_STRING)
     {
         if (empty($propertyName)) {
@@ -1332,10 +1332,10 @@ class User_Agent
     }
 
     /**
-     * Retrieve the mobile grading, using self::MOBILE_GRADE_* constants.
-     *
-     * @return string One of the self::MOBILE_GRADE_* constants.
-     */
+    * Retrieve the mobile grading, using self::MOBILE_GRADE_* constants.
+    *
+    * @return string One of the self::MOBILE_GRADE_* constants.
+    */
     public function mobileGrade()
     {
         $isMobile = $this->isMobile();
@@ -1456,5 +1456,74 @@ class User_Agent
         // All older smartphone platforms and featurephones - Any device that doesn't support media queries
         // will receive the basic, C grade experience.
         return self::MOBILE_GRADE_C;
+    }
+
+    /**
+    * Get the browser string.
+    *
+    * @return string
+    */
+    public  function getBrowser()
+    {
+        $Browser = 'None';
+        foreach(self::$browsers as $Key => $Value){
+            if($this->is($Key)){
+                $Browser = $Key;
+                break;
+            }
+        }
+        return $Browser;
+    }
+
+    /**
+    * Get the tablet string.
+    *
+    * @return string
+    */
+    public  function getTabletDevice()
+    {
+        $Browser = 'None';
+        foreach(self::$tabletDevices as $Key => $Value){
+            if($this->is($Key)){
+                $Browser = $Key;
+                break;
+            }
+        }
+        return $Browser;
+    }
+
+    /**
+    * Get the phone string.
+    *
+    * @return string
+    */
+    public  function getPhoneDevice()
+    {
+        $Browser = 'None';
+        foreach(self::$phoneDevices as $Key => $Value){
+            if($this->is($Key)){
+                $Browser = $Key;
+                break;
+            }
+        }
+        return $Browser;
+    }
+
+    /**
+    * Get the tablet or phone string.
+    *
+    * @return string
+    */
+    public  function getTabletOrPhoneDevice()
+    {
+        $Browser = 'None';
+        $Devices = array_merge(self::$phoneDevices, self::$tabletDevices);
+        foreach($Devices as $Key => $Value){
+            if($this->is($Key)){
+                $Browser = $Key;
+                break;
+            }
+        }
+        return $Browser;
     }
 }
