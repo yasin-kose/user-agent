@@ -501,7 +501,7 @@ class User_Agent
     * @var array
     */
     protected static $browsers = array(
-        //'Vivaldi'         => 'Vivaldi',
+        'Vivaldi'         => 'Vivaldi',
         // @reference: https://developers.google.com/chrome/mobile/docs/user-agent
         'Chrome'          => '\bCrMo\b|CriOS|Android.*Chrome/[.0-9]* (Mobile)?',
         'Dolfin'          => '\bDolfin\b',
@@ -1482,14 +1482,14 @@ class User_Agent
     */
     public  function getTabletDevice()
     {
-        $Browser = 'None';
+        $DeviceName = 'None';
         foreach(self::$tabletDevices as $Key => $Value){
             if($this->is($Key)){
-                $Browser = $Key;
+                $DeviceName = $Key;
                 break;
             }
         }
-        return $Browser;
+        return $DeviceName;
     }
 
     /**
@@ -1499,14 +1499,14 @@ class User_Agent
     */
     public  function getPhoneDevice()
     {
-        $Browser = 'None';
+        $DeviceName = 'None';
         foreach(self::$phoneDevices as $Key => $Value){
             if($this->is($Key)){
-                $Browser = $Key;
+                $DeviceName = $Key;
                 break;
             }
         }
-        return $Browser;
+        return $DeviceName;
     }
 
     /**
@@ -1516,14 +1516,14 @@ class User_Agent
     */
     public  function getTabletOrPhoneDevice()
     {
-        $Browser = 'None';
-        $Devices = array_merge(self::$phoneDevices, self::$tabletDevices);
+        $DeviceName = 'None';
+        $Devices    = array_merge(self::$phoneDevices, self::$tabletDevices);
         foreach($Devices as $Key => $Value){
             if($this->is($Key)){
-                $Browser = $Key;
+                $DeviceName = $Key;
                 break;
             }
         }
-        return $Browser;
+        return $DeviceName;
     }
 }
