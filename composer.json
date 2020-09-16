@@ -5,11 +5,11 @@
     "keywords": ["mobile", "mobile detect", "mobile detector", "php mobile detect", "detect mobile devices"],
     "homepage": "https://gitlab.com/Ankapix/user-agent",
     "license": "MIT",
-	"authors": [
+    "authors": [
         {
             "name": "Yasin Köse",
-            "email": "yasin.kose@outlook.com.tr",
-            "homepage": "http://ankapix.com",
+            "email": "bilgi@yasinkose.com.tr",
+            "homepage": "http://www.ankapix.com",
             "role": "Developer"
         }
     ],
